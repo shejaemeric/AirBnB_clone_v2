@@ -1,6 +1,7 @@
 <center> <h1>HBNB - The Console</h1> </center>
 
-This repository contains the initial stage of a student project to build a clone of the AirBnB website. This stage implements a backend interface, or console, to manage program data. Console commands allow the user to create, update, and destroy objects, as well as manage file storage. Using a system of JSON serialization/deserialization, storage is persistent between sessions.
+Co-Author: Sheja Lervy Emeric
+
 
 ---
 
@@ -140,3 +141,20 @@ Usage: <class_name>.update(<_id>, <dictionary>)
 (hbnb) ["[User] (98bea5de-9cb0-4d78-8a9d-c4de03521c30) {'updated_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134362), 'name': 'Fred the Frog', 'age': 9, 'id': '98bea5de-9cb0-4d78-8a9d-c4de03521c30', 'created_at': datetime.datetime(2020, 2, 19, 21, 47, 29, 134343)}"]
 ```
 <br>
+	
+	
+# Learning Objectives
+
+At the end of this project, you are expected to be able to explain to anyone, without the help of Google:
+General
+
+    What is Unit testing and how to implement it in a large project
+    What is *args and how to use it
+    What is **kwargs and how to use it
+    How to handle named arguments in a function
+    How to create a MySQL database
+    How to create a MySQL user and grant it privileges
+    What ORM means
+    How to map a Python Class to a MySQL table
+    How to handle 2 different storage engines with the same codebase
+    How to use environment variables
