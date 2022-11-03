@@ -16,14 +16,14 @@
 #     (ex: https://mydomainname.tech/hbnb_static). Don’t forget to restart Nginx after updating the configuration:
 
 
-sudo apt-update
+sudo apt-get update
 sudo apt-get install nginx
 
 sudo mkdir -p /data/web_static/releases/test/
 sudo mkdir -p /data/web_static/shared/
 echo "hello static world" >> /data/web_static/releases/test/index.html
 
-ln -sf /data/web_static/current /data/web_static/releases/test/
+ln -sf /data/web_static/releases/test/ /data/web_static/current
 sudo chown -R ubuntu:ubuntu /data/
 
 
@@ -39,13 +39,10 @@ server {
 
 	server_name _;
 
-    location =/hbnb_static {
+    location /hbnb_static {
         alias /data/web_static/current/;
         index index.html index.htm;
     }
-	location / {
-		try_files $uri $uri/ =404;
-	}
 
 	location =/redirect_me {
 		return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
