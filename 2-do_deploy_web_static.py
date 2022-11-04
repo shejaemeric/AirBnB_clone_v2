@@ -36,18 +36,18 @@ def do_deploy(archive_path):
 
     if not os.path.isfile(archive_path):
         return False
+    file = archive_path.split('/')[-1]
+    name = file.split(".")[0]
 
-    name = archive_path.split('/')[-1][:-7]
-
-    if put(archive_path,"/tmp/").failed:
+    if put(archive_path,"/tmp/{}".format(file)).failed:
         return False
-    if run("tar -xzf {} -C data/web_static/releases/{}".format(archive_path,name)).failed:
-        return False
-
-    if run("rm {}".format(archive_path)).failed:
+    if run("tar -xzf /tmp/{} -C data/web_static/releases/{}".format(file,name)).failed:
         return False
 
-    if run("rm /data/web_static/current").failed:
+    if run("rm /tmp/{}".format(file)).failed:
+        return False
+
+    if run("rm -rf /data/web_static/current").failed:
         return False
 
     if run("ln -sf /data/web_static/releases/{} /data/web_static/current".format(name)).failed:
