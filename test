@@ -1,0 +1,23 @@
+def do_deploy(archive_path):
+    """creates and distributes an archive to your web servers"""
+
+    if not os.path.isfile(archive_path):
+        return False
+
+    name = archive_path.split('/')[-1][:-7]
+
+    if put(archive_path,"/tmp/").failed:
+        return False
+    if run("tar -xzf {} -C data/web_static/releases/{}".format(archive_path,name)).failed:
+        return False
+
+    if run("rm {}".format(archive_path)).failed:
+        return False
+
+    if run("rm /data/web_static/current").failed:
+        return False
+
+    if run("ln -sf /data/web_static/releases/{} /data/web_static/current".format(name)).failed:
+        return False
+
+    return True

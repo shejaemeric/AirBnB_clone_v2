@@ -25,7 +25,14 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    """creates and distributes an archive to your web servers"""
+    """deploy archive file
+
+    Args:
+        archive_path (string): path to archived file
+
+    Returns:
+        _type_: boolean
+    """
 
     if not os.path.isfile(archive_path):
         return False
