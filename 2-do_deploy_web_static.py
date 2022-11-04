@@ -54,3 +54,13 @@ def do_deploy(archive_path):
         return True
     except Exception:
         return False
+
+def deploy():
+    """deploy to my web_servers"""
+    archive_path = do_pack()
+
+    if archive_path:
+        if do_deploy(archive_path):
+            return True
+
+    return False
