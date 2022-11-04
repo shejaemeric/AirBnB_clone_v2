@@ -4,6 +4,8 @@ import os.path
 from datetime import datetime
 from fabric.api import local
 
+env.hosts = ['34.231.122.141', '3.236.208.134']
+env.user = 'ubuntu'
 
 def do_pack():
     """Create a tar gzipped archive of the directory web_static."""
@@ -22,3 +24,27 @@ def do_pack():
     return file
 
 
+def do_deploy(archive_path):
+    """
+    creates and distributes an archive to your web servers
+    """
+    if not os.path.isfile(archive_path):
+        return False
+
+    name = archive_path.split('/')[-1][:-7]
+
+    if put(archive_path,"/tmp/").failed:
+        return False
+    if run("tar -xzf {} -C data/web_static/releases/{}".format(archive_path,name)).failed:
+        return False
+
+    if run("rm {}".format(archive_path)).failed:
+        return False
+
+    if run("rm /data/web_static/current").failed:
+        return False
+
+    if run("ln -sf /data/web_static/releases/{} /data/web_static/current".format(name)).failed:
+        return False
+
+    return True
