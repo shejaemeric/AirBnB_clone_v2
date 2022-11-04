@@ -25,9 +25,8 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    """
-    creates and distributes an archive to your web servers
-    """
+    """creates and distributes an archive to your web servers"""
+
     if not os.path.isfile(archive_path):
         return False
 
