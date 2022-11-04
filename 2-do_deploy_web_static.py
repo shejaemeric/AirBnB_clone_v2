@@ -25,32 +25,26 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    """deploy archive file
-
-    Args:
-        archive_path (string): path to archived file
-
-    Returns:
-        _type_: boolean
+    """ function distrubtes an archive to my web servers
     """
-
-    if not os.path.isfile(archive_path):
+    path_existence = os.path.exists(archive_path)
+    if path_existence is False:
         return False
-    file = archive_path.split('/')[-1]
-    name = file.split(".")[0]
-
-    if put(archive_path,"/tmp/{}".format(file)).failed:
+    try:
+        path_split = archive_path.replace('/', ' ').replace('.', ' ').split()
+        just_directory = path_split[0]
+        no_tgz_name = path_split[1]
+        full_filename = path_split[1] + '.' + path_split[2]
+        folder = '/data/web_static/releases/{}/'.format(no_tgz_name)
+        put(archive_path, '/tmp/')
+        run('mkdir -p {}'.format(folder))
+        run('tar -xzf /tmp/{} -C {}/'.format(full_filename, folder))
+        run('rm /tmp/{}'.format(full_filename))
+        run('mv {}/web_static/* {}'.format(folder, folder))
+        run('rm -rf {}/web_static'.format(folder))
+        current = '/data/web_static/current'
+        run('rm -rf {}'.format(current))
+        run('ln -s {}/ {}'.format(folder, current))
+        return True
+    except Exception:
         return False
-    if run("tar -xzf /tmp/{} -C data/web_static/releases/{}".format(file,name)).failed:
-        return False
-
-    if run("rm /tmp/{}".format(file)).failed:
-        return False
-
-    if run("rm -rf /data/web_static/current").failed:
-        return False
-
-    if run("ln -sf /data/web_static/releases/{} /data/web_static/current".format(name)).failed:
-        return False
-
-    return True
